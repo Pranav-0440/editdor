@@ -281,17 +281,22 @@ const addFormReducer = (
   }
 
   let td = structuredClone(state.parsedTD) as ThingDescription;
-  if (level == "thing") {
+  if (level === "thing") {
     if (td.forms && !Array.isArray(td.forms)) {
       return state;
     }
 
-    if (!td.forms) {
-      td.forms = undefined;
+    if (!Array.isArray(td.forms)) {
+      td.forms = [];
     }
 
-    td.forms?.push(form);
-    return { ...state, offlineTD: JSON.stringify(td, null, 2), parsedTD: td };
+    td.forms.push(form);
+
+    return {
+      ...state,
+      offlineTD: JSON.stringify(td, null, 2),
+      parsedTD: td,
+    };
   }
 
   // interaction type or interaction itself doesn't exist
